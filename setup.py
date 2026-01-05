@@ -18,7 +18,7 @@ def get_requirements(file_path: str) -> List[str]:
 
 
 setup(
-    name='azure-ml-e2e',
+    name='student-ml-azure-deployment',
     version='0.1.0',
     author='Shweta Bambal',
     author_email='shwetabambal18@gmai.com',

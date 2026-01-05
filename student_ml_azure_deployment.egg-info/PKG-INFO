@@ -1,5 +1,5 @@
 Metadata-Version: 2.4
-Name: azure-ml-e2e
+Name: student-ml-azure-deployment
 Version: 0.1.0
 Summary: A package for Azure ML end-to-end workflows
 Author: Shweta Bambal
