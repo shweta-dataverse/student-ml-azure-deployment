@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: azure-ml-e2e
+Version: 0.1.0
+Summary: A package for Azure ML end-to-end workflows
+Author: Shweta Bambal
+Author-email: shwetabambal18@gmai.com
+Requires-Dist: pandas
+Requires-Dist: seaborn
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
+Dynamic: summary
