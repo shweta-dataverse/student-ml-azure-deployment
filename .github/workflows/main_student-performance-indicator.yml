@@ -51,10 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
-    environment:
-      name: production
-      url: https://student-performance-indicator.azurewebsites.net
-
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
