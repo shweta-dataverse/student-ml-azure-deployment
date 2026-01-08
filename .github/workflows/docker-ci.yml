@@ -1,0 +1,52 @@
+name: Docker CI/CD to Azure Web App
+
+on:
+  push:
+    branches:
+      - main  # Adjust this if your main branch is named 'master'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    # Links the job status to your repository's environment tracking
+    environment: 
+      name: Azure-Production # E.g., Production
+      # Using the full domain name for the live site URL
+      url: https://shweta-ml-app-dcashff2dpbjgee6.centralus-01.azurewebsites.net/ 
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 1. Login to Azure using the Service Principal (AZURE_CREDENTIALS)
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    # 2. Login to Azure Container Registry (ACR)
+    - name: Docker Login to ACR
+      uses: docker/login-action@v3
+      with:
+        registry: mlprojectdocker.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    # 3. Build the Image for the Correct Platform (linux/amd64) and Push to ACR
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        # We use a tag based on the commit SHA for immutability
+        tags: mlprojectdocker.azurecr.io/studentperformance1:${{ github.sha }} 
+        platforms: linux/amd64 
+
+    # 4. Deploy to Azure Web App (Tells the App Service to pull the new image)
+    - name: Deploy to Azure Web App for Containers
+      uses: azure/webapps-deploy@v2
+      with:
+        # App Name is the short, internal name used by Azure management
+        app-name: shweta-ml-app 
+        images: 'mlprojectdocker.azurecr.io/studentperformance1:${{ github.sha }}'
